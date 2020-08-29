@@ -97,5 +97,11 @@ function buildPlot(input) {
         m_keys.forEach(function(m_data){
         meta_data.append("p").text(`${m_data[0]}: ${m_data[1]}`)
         });
+
+        // Setting wash frequency variable for guage
+        var wash_freq = meta_text.wfreq
+        
+        // Initiating guage function with wash_frequency
+        guage(wash_freq)
     }); 
 };
