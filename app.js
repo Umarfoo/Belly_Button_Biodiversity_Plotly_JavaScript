@@ -1,9 +1,6 @@
 // Setting function on dropdownmenu to print new graph based on option selected
 d3.selectAll("#selDataset").on("change", selection)
 
-// Printing the first option in the dropdownmenu
-buildPlot(940);
-
 // create function to make dropdown value
     // Select the dropdownmenu with d3
 d3.json("data/samples.json").then(function(dataOtu){
@@ -11,7 +8,10 @@ d3.json("data/samples.json").then(function(dataOtu){
     // get names list from json data
     var names_list = dataOtu.names;
     
-     // make for loop to append/push new options to dropdown menu using d3
+    // Printing the first option in the dropdownmenu
+    buildPlot(names_list[0]);
+    
+    // make for loop to append/push new options to dropdown menu using d3
     var dropDownMenu = d3.select("#selDataset");
     dropDownMenu.selectAll("option").data(names_list).enter().append("option").text(function(d) {
         return d;
@@ -21,6 +21,7 @@ d3.json("data/samples.json").then(function(dataOtu){
         });
 });
 
+// Selecting the value of the dropdownmenu and running buildplot function based on input
 function selection(){
     // Selecting Dropdownmenu
     var dropDownMenu = d3.select("#selDataset")
@@ -35,11 +36,8 @@ function buildPlot(input) {
         // Make a list of all the data in names
         var names_list = dataOtu.names;
         
-        // Input sample ID selected from HTML or USER
-        var user_input = input;
-        
         // fetch the index value based on the name input by user
-        var sample_id = names_list.findIndex(i => i == user_input);
+        var sample_id = names_list.findIndex(i => i == input);
         
         // Adding data for the graphs and placing data to relevent variables
         var otu_IDs = dataOtu.samples[sample_id].otu_ids; 
@@ -79,6 +77,7 @@ function buildPlot(input) {
         };
         var data = [trace1];  
         var layout = {
+            xaxis: {title: 'OTU ID'},
             showlegend: false,
         };
         Plotly.newPlot('bubble', data, layout);
